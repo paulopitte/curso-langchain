@@ -35,16 +35,12 @@ pip install langchain-openai langchain langchain-core langchain-community langch
 ```
 
 3. Configure as variáveis de ambiente:
-   - Renomeie o arquivo `.env.example` para `.env` e atualize as variáveis com seus valores. Exemplo:
-
-   ```
-   mv .env.example .env
-   ```
+   - Em `.env` atualize as variáveis com seus valores.
 
 5) Crie o ambiente virtual:
 
    ```
-   python -m venv venv
+   python -m venv .venv
    ```
 
 6) Caso o processo de download das bibliotecas demore (mensagem "This could take a while" no log de download) você utilizar os seguintes passos:
