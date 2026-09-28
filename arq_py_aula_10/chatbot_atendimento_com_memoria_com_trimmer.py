@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain_community.chat_message_histories import SQLChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
@@ -18,14 +19,15 @@ def get_session_history(session_id):
 # --------------------------------------------------------------------------------
 
 # Instancias um chatmodel para comunicarmos com os modelos LLMs
-model = ChatOpenAI(model="gpt-4o", temperature=0.2)
+# model = ChatOpenAI(model="gpt-4o", temperature=0.2)
+model = ChatOllama(model="llama3.2", temperature=0.2)
 
 # --------------------------------------------------------------------------------
 
 # Definindo o prompt de chatbot que tira duvidas do usuário:
 
-sys_chatbot_prompt = """ Você é um assistente de uma clinica odontológica e tem como objetivo responder à perguntas dos clientes. A seguir você \  
-encontra a FAQ do nosso site, use essas informações para realizar o atendimento e tirar dúvidas. Caso você desconheça alguma \  
+sys_chatbot_prompt = """ Você é um assistente de uma clinica odontológica e tem como objetivo responder à perguntas dos clientes. A seguir você \
+encontra a FAQ do nosso site, use essas informações para realizar o atendimento e tirar dúvidas. Caso você desconheça alguma \
 informação, não invente. Seja sempre amigável e esteja disposto a ajudar!  
 
 **FAQ - Clínica Odontológica**  
