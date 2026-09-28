@@ -2,7 +2,7 @@
 
 from dotenv import load_dotenv
 #from langchain_openai import ChatOpenAI
-from langchain_ollama import OllamaLLM, ChatOllama
+from langchain_ollama import OllamaLLM
 
 # Carregando as variaveis de '.env'
 load_dotenv()
