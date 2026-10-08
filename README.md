@@ -1,6 +1,6 @@
-# Curso LangChain
+# Estudos do LangChain
 
-Bem-vindo ao repositório do Curso LangChain! a idéia é criar exemplos e implementações de tudo que for possível fazer com LLM integrado, construir chatbots RAG e automatizar tarefas com IA.
+Este repositório de estudos tem a idéia é mostrar exemplos e implementações de tudo que for possível fazer com LLM integrado, construir chatbots RAG e automatizar tarefas com IA.
 
 ## Começando
 
