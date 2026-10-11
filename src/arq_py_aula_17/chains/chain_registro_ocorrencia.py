@@ -1,11 +1,12 @@
 from dotenv import load_dotenv
+from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 import os
 import csv
 from operator import itemgetter
 
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import PydanticOutputParser, StrOutputParser
 from langchain_core.runnables import RunnableLambda
 from langchain_core.runnables import RunnableParallel
@@ -15,8 +16,8 @@ load_dotenv()
 # --------------------------------------------------------------------------------
 
 # Instanciar um chatmodel para comunicarmos com os modelos LLMs
-model_registro = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-
+#model_registro = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+model_registro = ChatOllama(model="gemma4", temperature=0.2)  # modelo multimodal para lidar com imagens e texto
 # --------------------------------------------------------------------------------
 # Criando o estruturador de saida:
 class RegistroOcorrencia(BaseModel):
@@ -66,7 +67,8 @@ def cadastro_dengue(entrada):
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Chain de finalização:
-model_finalizacao = ChatOpenAI(model="gpt-4o", temperature=0.2)
+#model_finalizacao = ChatOpenAI(model="gpt-4o", temperature=0.2)
+model_finalizacao = ChatOllama(model="gemma4", temperature=0.2)  # modelo multimodal para lidar com imagens e texto
 
 # Criando o ChatPromptTemplate que vai finalizar a conversa dizendo oq ue está faltando ou se teve sucesso no cadastro da ocorrencia.
 sys_prompt_finalizacao = """\

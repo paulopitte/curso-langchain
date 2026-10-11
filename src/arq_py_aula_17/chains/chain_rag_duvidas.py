@@ -2,8 +2,9 @@ import os
 from dotenv import load_dotenv
 from operator import itemgetter
 
+from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_qdrant import QdrantVectorStore
 from langchain_core.runnables import RunnableParallel, RunnableLambda
@@ -14,10 +15,12 @@ load_dotenv()
 # --------------------------------------------------------------------------------
 
 # Instanciar um chatmodel para comunicarmos com os modelos LLMs
-model_atendimento_orientador = ChatOpenAI(model="gpt-4o", temperature=0.2)
+#model_atendimento_orientador = ChatOpenAI(model="gpt-4o", temperature=0.2)
+model_atendimento_orientador = ChatOllama(model="gemma4", temperature=0.2)
 
 # Instanciar modelo de Embedding
-modelo_embedding = OpenAIEmbeddings(model="text-embedding-3-large")
+##modelo_embedding = OpenAIEmbeddings(model="text-embedding-3-large")
+modelo_embedding = OllamaEmbeddings(model="embeddinggemma-2")
 
 # Banco Vetorial
 db_vetorial = QdrantVectorStore.from_existing_collection(

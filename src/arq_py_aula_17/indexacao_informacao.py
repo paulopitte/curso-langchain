@@ -5,7 +5,7 @@ import re
 import fitz
 from PIL import Image
 
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.documents import Document
 from langchain_core.messages import HumanMessage
@@ -21,7 +21,7 @@ class CarregadorDocumento:
     def __init__(self, caminho_documento):
         self.caminho_documento = caminho_documento
         self.text_splitter = RecursiveCharacterTextSplitter(separators = [""], chunk_size=1000, chunk_overlap=200)
-        self.embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
+        self.embedding_model = OllamaEmbeddings(model="embeddinggemma-2")
 
     def carregar_texto(self):
         """Lê e carrega o PDF criando os Documents apenas do texto."""
@@ -59,7 +59,7 @@ class CarregadorDocumento:
         # img.show()
 
         # Criar uma instância do modelo Multimodal:
-        llm_multimodal = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
+        llm_multimodal = ChatOllama(model="gemma4", temperature=0.3)
 
         prompt_de_transcricao = """Você é um especialista em criar transcrição fiel da imagem. Comente todos os detalhes. \
 Descreva valores e cores quando tiver. Inclua o que a imagem quer apresentar.
@@ -72,13 +72,13 @@ para uma pessoa cega. Indique também a numeração da imagem que está na legen
                 {"type": "text", "text": prompt_de_transcricao},
                 {
                     "type": "image_url",
-                    "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(buffer.getvalue()).decode('utf-8')}"},
+                    "image_url": {"url": f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode('utf-8')}"},
                 },
             ],
         )
         response = llm_multimodal.invoke([message])
 
-        return Document(page_content=response.content, metadata={"source":".\DENGUE.pdf", "page":pagina_com_imagem})
+        return Document(page_content=response.content, metadata={"source":r".\src\arq_py_aula_17\DENGUE.pdf", "page":pagina_com_imagem})
 
     def cria_chunks(self, documentos):
         """Função que cria os chunks"""
@@ -115,12 +115,12 @@ para uma pessoa cega. Indique também a numeração da imagem que está na legen
 
 
 # if __name__=="__main__":
-#     i = CarregadorDocumento(r".\DENGUE.pdf")
+#     i = CarregadorDocumento(r".\src\arq_py_aula_17\DENGUE.pdf")
 #     t = i.identificar_imagem()
 #     for el in t:
 #         t = i.gera_transcricao_imagem(el)
 #         print(t)
 
 if __name__=="__main__":
-    i = CarregadorDocumento(r".\DENGUE.pdf")
-    i.indexar_informacao(True)
+    i = CarregadorDocumento(r".\src\arq_py_aula_17\DENGUE.pdf")
+    i.indexar_informacao(True)  # Se quiser indexar a imagem, coloque True. Se não quiser, coloque False.
